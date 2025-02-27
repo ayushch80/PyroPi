@@ -1,4 +1,4 @@
-<a href="/new" class="add-new">+</a>
+<a href="/add" class="add-new">+</a>
 
 <style>
     .add-new {
