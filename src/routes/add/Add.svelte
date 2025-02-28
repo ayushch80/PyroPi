@@ -1,6 +1,6 @@
 <script lang="ts">
     import { pingHostname } from "$lib/functions";
-    import GoBackButton from "../../components/GoBackButton.svelte";
+    import SaveButton from "./SaveButton.svelte";
 
     let ip: string | boolean = false;
     let hostname: string = "raspberrypi";
@@ -12,7 +12,7 @@
     };
 </script>
 
-<GoBackButton />
+<SaveButton />
 <div class="add-new new">
     <label>
         mDNS Hostname

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { IconArrowLeft } from '@tabler/icons-svelte';
+    import { IconDeviceFloppy } from '@tabler/icons-svelte';
 </script>
 
-<a href="/" class="add-new"><IconArrowLeft /></a>
+<a href="/" class="add-new"><IconDeviceFloppy /></a>
 
 <style>
     .add-new {
