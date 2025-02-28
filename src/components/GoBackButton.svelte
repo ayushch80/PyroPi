@@ -1,4 +1,8 @@
-<a href="/" class="add-new">&lt;-</a>
+<script lang="ts">
+    import { IconArrowLeft } from '@tabler/icons-svelte';
+</script>
+
+<a href="/" class="add-new"><IconArrowLeft /></a>
 
 <style>
     .add-new {
