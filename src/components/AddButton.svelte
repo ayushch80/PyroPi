@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { IconPlus } from '@tabler/icons-svelte';
+    import { IconPlus } from "@tabler/icons-svelte";
 </script>
 
 <a href="/add" class="add-new"><IconPlus /></a>
@@ -31,12 +31,7 @@
         background: #fff;
         color: #222;
 
-        transition:
-            border-radius 50ms ease-in-out,
-            background 20ms ease-in-out;
-    }
-    .add-new:hover {
-        border-radius: 0.5em;
+        transition: background 20ms ease-in-out;
     }
     .add-new:active {
         background: #aaa;
