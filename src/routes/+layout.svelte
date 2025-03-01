@@ -1,10 +1,12 @@
 <script lang="ts">
+    import { Notifications } from "@tadashi/svelte-notification";
     import StatusBar from "../components/StatusBar.svelte";
     import Devices from "./Devices.svelte";
 
     let { children } = $props();
 </script>
 
+<Notifications />
 <StatusBar />
 <div class="root" style="flex: 1;">
     <Devices />

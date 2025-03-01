@@ -1,5 +1,6 @@
 <script lang="ts">
     import SaveButton from "./SaveButton.svelte";
+    import { acts } from "@tadashi/svelte-notification";
 
     let ip: string | boolean = false;
     let deviceName: string = "";
@@ -10,18 +11,24 @@
 
     const submitForm = (event: Event) => {
         event.preventDefault();
+
         let data: Config = {
             deviceName,
             hostname,
-            sshPort,
+            sshPort: Number(sshPort),
             username,
-            password
-        }
-        console.log(data)
+            password,
+        };
+
+        acts.add({
+            title: "Success",
+            message: "Successfully saved data.",
+            mode: "success",
+            lifetime: 5,
+        });
     };
 </script>
 
-<SaveButton />
 <div class="add-new new">
     <form on:submit={submitForm}>
         <label for="deviceName">Device Name</label>
@@ -29,6 +36,8 @@
             id="deviceName"
             placeholder="Device Name"
             bind:value={deviceName}
+            type="text"
+            required
         />
         <br />
 
@@ -37,24 +46,43 @@
             id="mdnsHostanme"
             placeholder="mDNS Hostame"
             bind:value={hostname}
+            type="text"
+            required
         />
         <code>.local</code>
         <br />
 
         <label for="sshPort">SSH Port</label>
-        <input id="sshPort" placeholder="SSH Port" bind:value={sshPort} />
+        <input
+            id="sshPort"
+            placeholder="SSH Port"
+            bind:value={sshPort}
+            type="number"
+            required
+        />
         <br />
 
         <label for="username">Username</label>
-        <input id="username" placeholder="Username" bind:value={username} />
+        <input
+            id="username"
+            placeholder="Username"
+            bind:value={username}
+            type="text"
+            required
+        />
         <br />
 
         <label for="password">Password</label>
-        <input id="password" placeholder="Password" bind:value={password} />
+        <input
+            id="password"
+            placeholder="Password"
+            bind:value={password}
+            type="password"
+            required
+        />
         <br />
 
-        <button type="submit">SAVE</button>
-        <button type="reset">RESET</button>
+        <SaveButton />
     </form>
 </div>
 
