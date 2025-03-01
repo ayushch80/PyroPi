@@ -5,13 +5,16 @@
 
     let os : Platform = platform();
 
-    function goBack() {
+    function goBack(event: Event) {
+        event.preventDefault();
         history.back();
     }
-    function goForeward() {
+    function goForeward(event: Event) {
+        event.preventDefault();
         history.forward();
     }
-    function goHome() {
+    function goHome(event: Event) {
+        event.preventDefault();
         goto('/')
     }
 </script>
@@ -23,7 +26,7 @@
     <span style="flex: 1;">{""}</span>
     <span class="highlighted">OS: <code>{os}</code></span>
 </nav>
-<hr />
+<hr style="width: 99%;" />
 
 <style lang="css">
     nav {
