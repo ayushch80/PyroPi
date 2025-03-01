@@ -4,11 +4,12 @@
 
 <AddButton />
 <main class="container">
-    <!-- NOTHING HERE AS OF NOW -->
+     PYROPI
 </main>
 
 <style>
     .container {
+        flex: 1;
         display: flex;
         flex-direction: column;
     }

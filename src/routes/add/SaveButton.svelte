@@ -1,8 +1,9 @@
 <script lang="ts">
     import { IconDeviceFloppy } from "@tabler/icons-svelte";
+    // TODO: Add logic to save config
 </script>
 
-<a href="/" class="add-new"><IconDeviceFloppy /></a>
+<button class="add-new"><IconDeviceFloppy /></button>
 
 <style>
     .add-new {
