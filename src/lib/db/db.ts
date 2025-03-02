@@ -1,4 +1,4 @@
-import Dexie, { type EntityTable, type Observable } from "dexie";
+import Dexie, { type EntityTable } from "dexie";
 
 interface Config {
   deviceName: string;
@@ -46,5 +46,5 @@ async function getConfigs(): Promise<ExtendedConfig[]> {
   return db.configs.toArray();
 }
 
-export type { Config };
+export type { Config, ExtendedConfig };
 export { addConfig, db, getConfigs };

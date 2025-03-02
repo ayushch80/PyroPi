@@ -1,17 +1,90 @@
+<script lang="ts">
+    import { getConfigs, type ExtendedConfig } from "$lib/db/db";
+    import { IconCpu, IconCaretRightFilled } from "@tabler/icons-svelte";
+    import { newDeviceAdded } from "./add/Add.svelte";
+
+    let configs : ExtendedConfig[] = $state([]);
+
+    (async () => {
+        configs = await getConfigs();
+    })();
+
+    $effect(() => {
+        if (newDeviceAdded.value) {
+            getConfigs().then((data) => {
+                configs = data;
+            })
+            newDeviceAdded.value = false;
+        }
+    })
+
+</script>
+
 <div class="devices">
-    <span>NO DEVICES FOUND</span>
+    {#if configs.length > 0}
+        {#each configs as deviceConfig}
+            <div class="device-card">
+                <span class="cpu-icon"><IconCpu size="2em" /></span>
+                <span class="device-name">{deviceConfig.deviceName}</span>
+                <span class="hostname">{deviceConfig.hostname}.local</span>
+                <span class="right-icon"
+                    ><IconCaretRightFilled size="2em" /></span
+                >
+            </div>
+        {/each}
+    {:else}
+        <span>NO SAVED DEVICES</span>
+    {/if}
 </div>
-<div class="vertical-line"></div>
 
 <style>
-    .vertical-line {
-        margin-left: 0.5em;
-        margin-right: 0.5em;
+    .devices {
+        display: flex;
+        flex-direction: column;
+    }
+    .cpu-icon {
+        grid-area: cpu;
+        display: grid;
 
-        width: 1px;
-        height: 100%;
-        background-color: #ccc;
+        width: 2.5em;
+        align-self: center;
+        justify-items: left;
+    }
+    .right-icon {
+        grid-area: right-icon;
+        display: grid;
 
-        overflow: hidden;
+        width: 3em;
+        align-self: center;
+        justify-items: right;
+    }
+    .device-name {
+        grid-area: device;
+        font-weight: bold;
+    }
+    .hostname {
+        grid-area: hostname;
+        font-style: monospace;
+    }
+    .device-card {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "cpu device right-icon"
+            "cpu hostname right-icon";
+
+        background: #111;
+        padding: 0.75em;
+
+        border-radius: 0.5em;
+        margin-bottom: 0.5em;
+
+        cursor: pointer;
+
+        transition: background 0.125s ease-in-out;
+    }
+    .device-card:hover {
+        background: #1a1a2a;
     }
 </style>

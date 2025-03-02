@@ -1,15 +1,17 @@
-<script lang="ts">
+<script lang="ts" module>
     import SaveButton from "./SaveButton.svelte";
     import { acts } from "@tadashi/svelte-notification";
     import { addConfig, getConfigs, type Config } from "$lib/db/db";
     import { error } from "@sveltejs/kit";
 
     let ip: string | boolean = false;
-    let deviceName: string = "Device";
-    let hostname: string = "raspberrypi";
-    let sshPort: number = 22;
-    let username: string;
-    let password: string;
+    let deviceName: string = $state("Device");
+    let hostname: string = $state("raspberrypi");
+    let sshPort: number = $state(22);
+    let username: string = $state("");
+    let password: string = $state("");
+
+    let newDeviceAdded = $state({value: false});
 
     (async () => {
         let configs = await getConfigs();
@@ -34,6 +36,8 @@
                 throw msg;
             }
 
+            newDeviceAdded.value = true;
+
             acts.add({
                 title: "Success",
                 message: msg,
@@ -49,10 +53,14 @@
             });
         }
     };
+
+    export {
+        newDeviceAdded
+    }
 </script>
 
 <div class="add-new new">
-    <form on:submit={submitForm}>
+    <form onsubmit={submitForm}>
         <label for="deviceName">Device Name</label>
         <input
             id="deviceName"
