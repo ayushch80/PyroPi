@@ -1,15 +1,20 @@
 <script lang="ts">
     import SaveButton from "./SaveButton.svelte";
     import { acts } from "@tadashi/svelte-notification";
-    import { addConfig, type Config } from "$lib/db/db";
+    import { addConfig, getConfigs, type Config } from "$lib/db/db";
     import { error } from "@sveltejs/kit";
 
     let ip: string | boolean = false;
-    let deviceName: string = "";
+    let deviceName: string = "Device";
     let hostname: string = "raspberrypi";
     let sshPort: number = 22;
     let username: string;
     let password: string;
+
+    (async () => {
+        let configs = await getConfigs();
+        deviceName += ` ${configs.length+1}`
+    })();
 
     const submitForm = async (event: Event) => {
         event.preventDefault();
