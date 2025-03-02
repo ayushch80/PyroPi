@@ -3,6 +3,7 @@
     import { acts } from "@tadashi/svelte-notification";
     import { addConfig, getConfigs, type Config } from "$lib/db/db";
     import { error } from "@sveltejs/kit";
+    import { goto } from "$app/navigation";
 
     let ip: string | boolean = false;
     let deviceName: string = $state("Device");
@@ -44,6 +45,8 @@
                 mode: "success",
                 lifetime: 5,
             });
+
+            goto('/')
         } catch (err: Error | any) {
             acts.add({
                 title: "Error",
