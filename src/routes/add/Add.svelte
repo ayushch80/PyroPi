@@ -23,7 +23,7 @@
         };
 
         try {
-            let msg : string | Error = await addConfig(data);
+            let msg: string | Error = await addConfig(data);
 
             if (msg instanceof error) {
                 throw msg;
