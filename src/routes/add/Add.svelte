@@ -1,6 +1,8 @@
 <script lang="ts">
     import SaveButton from "./SaveButton.svelte";
     import { acts } from "@tadashi/svelte-notification";
+    import { addConfig, type Config } from "$lib/db/db";
+    import { error } from "@sveltejs/kit";
 
     let ip: string | boolean = false;
     let deviceName: string = "";
@@ -9,7 +11,7 @@
     let username: string;
     let password: string;
 
-    const submitForm = (event: Event) => {
+    const submitForm = async (event: Event) => {
         event.preventDefault();
 
         let data: Config = {
@@ -20,12 +22,27 @@
             password,
         };
 
-        acts.add({
-            title: "Success",
-            message: "Successfully saved data.",
-            mode: "success",
-            lifetime: 5,
-        });
+        try {
+            let msg : string | Error = await addConfig(data);
+
+            if (msg instanceof error) {
+                throw msg;
+            }
+
+            acts.add({
+                title: "Success",
+                message: msg,
+                mode: "success",
+                lifetime: 5,
+            });
+        } catch (err: Error | any) {
+            acts.add({
+                title: "Error",
+                message: err.message,
+                mode: "danger",
+                lifetime: 5,
+            });
+        }
     };
 </script>
 
