@@ -5,7 +5,6 @@
     import { error } from "@sveltejs/kit";
     import { goto } from "$app/navigation";
 
-    let ip: string | boolean = false;
     let deviceName: string = $state("Device");
     let hostname: string = $state("raspberrypi");
     let sshPort: number = $state(22);

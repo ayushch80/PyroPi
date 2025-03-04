@@ -2,12 +2,18 @@
     import { getConfigs, type ExtendedConfig } from "$lib/db/db";
     import { IconCpu, IconCaretRightFilled } from "@tabler/icons-svelte";
     import { newDeviceAdded } from "./add/Add.svelte";
+    import { goto } from "$app/navigation";
 
     let configs : ExtendedConfig[] = $state([]);
 
     (async () => {
         configs = await getConfigs();
     })();
+
+    const editConfig = (event: Event, config: ExtendedConfig) => {
+        event.preventDefault();
+        goto(`/edit/${config.id}`);
+    }
 
     $effect(() => {
         if (newDeviceAdded.value) {
@@ -23,7 +29,9 @@
 <div class="devices">
     {#if configs.length > 0}
         {#each configs as deviceConfig}
-            <div class="device-card">
+            <!-- svelte-ignore a11y_click_events_have_key_events -->
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <div class="device-card" onclick={(e) => {editConfig(e,deviceConfig)}}>
                 <span class="cpu-icon"><IconCpu size="2em" /></span>
                 <span class="device-name">{deviceConfig.deviceName}</span>
                 <span class="hostname">{deviceConfig.hostname}.local</span>
