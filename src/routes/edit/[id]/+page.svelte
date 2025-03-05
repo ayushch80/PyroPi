@@ -1,7 +1,23 @@
 <script lang="ts">
     import { page } from "$app/state";
+    import { getConfigs, type ExtendedConfig } from "$lib/db/db";
+    import SaveButton from "./SaveButton.svelte";
 
-    let id: string = page.params.id;
+    let id: string = $derived(page.params.id);
+
+    let configs: ExtendedConfig[] = $state([]);
+    let currentConfig: ExtendedConfig;
+    (async () => {
+        configs = await getConfigs();
+        for (let i = 0; i < configs.length; i++) {
+            if (configs[i].id.toString() == id) {
+                currentConfig = configs[i];
+            }
+        }
+    })();
 </script>
 
-<span>EDITING CONFIGURATION : {id}</span>
+<SaveButton />
+<div class="edit">
+    <span>EDITING CONFIGURATION : {id}</span>
+</div>
