@@ -3,10 +3,11 @@
     import { IconCpu, IconCaretRightFilled } from "@tabler/icons-svelte";
     import { newDeviceAdded } from "./add/Add.svelte";
     import { goto } from "$app/navigation";
+    import { editSaved } from "./reactiveVariables.svelte";
 
     let configs : ExtendedConfig[] = $state([]);
 
-    (async () => {
+    (async () => { 
         configs = await getConfigs();
     })();
 
@@ -16,14 +17,14 @@
     }
 
     $effect(() => {
-        if (newDeviceAdded.value) {
+        if (newDeviceAdded.value || editSaved.value) {
             getConfigs().then((data) => {
                 configs = data;
             })
             newDeviceAdded.value = false;
+            editSaved.value = false;
         }
     })
-
 </script>
 
 <div class="devices">

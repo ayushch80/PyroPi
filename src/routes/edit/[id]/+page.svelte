@@ -1,14 +1,22 @@
 <script lang="ts">
     import { page } from "$app/state";
-    import { getConfigs, type Config, type ExtendedConfig } from "$lib/db/db";
+    import {
+        getConfigs,
+        updateConfig,
+        type Config,
+        type ExtendedConfig,
+    } from "$lib/db/db";
+    import { error } from "@sveltejs/kit";
     import SaveButton from "./SaveButton.svelte";
+    import { acts } from "@tadashi/svelte-notification";
+    import { editSaved } from "../../reactiveVariables.svelte";
 
     let id: string = $derived(page.params.id);
 
     let configs: ExtendedConfig[] = $state([]);
     let index: number = $state(-1);
 
-    function submitForm (event: Event) {
+    async function submitForm(event: Event) {
         event.preventDefault();
 
         const data: Config = {
@@ -18,6 +26,29 @@
             username: configs[index].username,
             password: configs[index].password,
         };
+
+        try {
+            let msg: string | Error = await updateConfig(Number(id), data);
+            if (msg instanceof error) {
+                throw msg;
+            }
+
+            editSaved.value = true;
+
+            acts.add({
+                title: "Success",
+                message: msg,
+                mode: "success",
+                lifetime: 5,
+            });
+        } catch (err: Error | any) {
+            acts.add({
+                title: "Error",
+                message: err.message,
+                mode: "danger",
+                lifetime: 5,
+            });
+        }
     }
 
     $effect(() => {
@@ -38,7 +69,7 @@
 <div class="edit">
     <span>EDITING CONFIGURATION : {id}</span>
     {#if configs.length > 0}
-        <form>
+        <form onsubmit={submitForm}>
             <label for="deviceName">Device Name</label>
             <input
                 id="deviceName"
