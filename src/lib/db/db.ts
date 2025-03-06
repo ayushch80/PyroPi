@@ -42,9 +42,18 @@ async function addConfig(data: Config): Promise<string | Error> {
   }
 }
 
+async function updateConfig(id: number, data: Config): Promise<string | Error> {
+  try {
+    await db.configs.update(id, data);
+    return "Successfully updated data.";
+  } catch (error) {
+    return new Error("Unable to save data.");
+  }
+}
+
 async function getConfigs(): Promise<ExtendedConfig[]> {
   return db.configs.toArray();
 }
 
 export type { Config, ExtendedConfig };
-export { addConfig, db, getConfigs };
+export { addConfig, db, getConfigs, updateConfig };
