@@ -11,9 +11,9 @@
         configs = await getConfigs();
     })();
 
-    const editConfig = (event: Event, config: ExtendedConfig) => {
+    const gotoDashboard = (event: Event, config: ExtendedConfig) => {
         event.preventDefault();
-        goto(`/edit/${config.id}`);
+        goto(`/dashboard/${config.id}`);
     }
 
     $effect(() => {
@@ -32,7 +32,7 @@
         {#each configs as deviceConfig}
             <!-- svelte-ignore a11y_click_events_have_key_events -->
             <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <div class="device-card" onclick={(e) => {editConfig(e,deviceConfig)}}>
+            <div class="device-card" onclick={(e) => {gotoDashboard(e,deviceConfig)}}>
                 <span class="cpu-icon"><IconCpu size="2em" /></span>
                 <span class="device-name">{deviceConfig.deviceName}</span>
                 <span class="hostname">{deviceConfig.hostname}.local</span>
