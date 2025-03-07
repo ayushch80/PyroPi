@@ -77,7 +77,7 @@
     }
     .device-card {
         display: grid;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: 0.5fr 2fr 0.5fr;
         grid-template-rows: auto auto;
         grid-template-areas:
             "cpu device right-icon"
