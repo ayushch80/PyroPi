@@ -3,28 +3,29 @@
     import { IconCpu, IconCaretRightFilled } from "@tabler/icons-svelte";
     import { newDeviceAdded } from "./add/Add.svelte";
     import { goto } from "$app/navigation";
-    import { editSaved } from "./reactiveVariables.svelte";
+    import { editSaved, selectedDevice } from "./reactiveVariables.svelte";
 
-    let configs : ExtendedConfig[] = $state([]);
+    let configs: ExtendedConfig[] = $state([]);
 
-    (async () => { 
+    (async () => {
         configs = await getConfigs();
     })();
 
     const gotoDashboard = (event: Event, config: ExtendedConfig) => {
         event.preventDefault();
+        selectedDevice.id = config.id;
         goto(`/dashboard/${config.id}`);
-    }
+    };
 
     $effect(() => {
         if (newDeviceAdded.value || editSaved.value) {
             getConfigs().then((data) => {
                 configs = data;
-            })
+            });
             newDeviceAdded.value = false;
             editSaved.value = false;
         }
-    })
+    });
 </script>
 
 <div class="devices">
@@ -32,7 +33,12 @@
         {#each configs as deviceConfig}
             <!-- svelte-ignore a11y_click_events_have_key_events -->
             <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <div class="device-card" onclick={(e) => {gotoDashboard(e,deviceConfig)}}>
+            <div
+                class={`device-card${selectedDevice.id == deviceConfig.id ? "-selected" : ""}`}
+                onclick={(e) => {
+                    gotoDashboard(e, deviceConfig);
+                }}
+            >
                 <span class="cpu-icon"><IconCpu size="2em" /></span>
                 <span class="device-name">{deviceConfig.deviceName}</span>
                 <span class="hostname">{deviceConfig.hostname}.local</span>
@@ -95,5 +101,26 @@
     }
     .device-card:hover {
         background: #1a1a2a;
+    }
+    .device-card-selected {
+        display: grid;
+        grid-template-columns: 0.5fr 2fr 0.5fr;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "cpu device right-icon"
+            "cpu hostname right-icon";
+
+        background: #444;
+        padding: 0.75em;
+
+        border-radius: 0.5em;
+        margin-bottom: 0.5em;
+
+        cursor: pointer;
+
+        transition: background 0.125s ease-in-out;
+    }
+    .device-card-selected:hover {
+        background: #4a4a5a;
     }
 </style>

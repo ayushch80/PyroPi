@@ -1,8 +1,11 @@
 <script lang="ts">
     import { page } from "$app/state";
     import { getConfigs, type ExtendedConfig } from "$lib/db/db";
+    import { selectedDevice } from "../../reactiveVariables.svelte";
 
     let id: string = $derived(page.params.id);
+    // svelte-ignore state_referenced_locally
+        selectedDevice.id = id;
     let configs: ExtendedConfig[] = $state([]);
     let index: number = $state(-1);
 
