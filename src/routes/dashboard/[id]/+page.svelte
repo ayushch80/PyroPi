@@ -22,11 +22,15 @@
             })();
         }
     });
+
+    // const gotoEdit
+    // TODO
 </script>
 
 {#if index >= 0}
     <div class="dashboard">
-        DASHBOARD - {configs[index].deviceName}
+        <div>DASHBOARD - {configs[index].deviceName}</div>
+        <button>EDIT CONFIG</button>
     </div>
 {:else}
     <span>LOADING...</span>
