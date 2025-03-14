@@ -1,9 +1,10 @@
-<script lang="ts" module>
+<script lang="ts">
     import SaveButton from "./SaveButton.svelte";
     import { acts } from "@tadashi/svelte-notification";
     import { addConfig, getConfigs, type Config } from "$lib/db/db";
     import { error } from "@sveltejs/kit";
     import { goto } from "$app/navigation";
+    import { newDeviceAdded } from "../reactiveVariables.svelte";
 
     let deviceName: string = $state("Device");
     let hostname: string = $state("raspberrypi");
@@ -11,11 +12,9 @@
     let username: string = $state("");
     let password: string = $state("");
 
-    let newDeviceAdded = $state({value: false});
-
     (async () => {
         let configs = await getConfigs();
-        deviceName += ` ${configs.length+1}`
+        deviceName += ` ${configs.length + 1}`;
     })();
 
     const submitForm = async (event: Event) => {
@@ -45,7 +44,7 @@
                 lifetime: 5,
             });
 
-            goto('/')
+            goto("/");
         } catch (err: Error | any) {
             acts.add({
                 title: "Error",
@@ -55,10 +54,6 @@
             });
         }
     };
-
-    export {
-        newDeviceAdded
-    }
 </script>
 
 <div class="add-new new">
@@ -117,6 +112,3 @@
         <SaveButton />
     </form>
 </div>
-
-<style>
-</style>

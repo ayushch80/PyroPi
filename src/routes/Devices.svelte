@@ -1,9 +1,12 @@
 <script lang="ts">
     import { getConfigs, type ExtendedConfig } from "$lib/db/db";
     import { IconCpu, IconCaretRightFilled } from "@tabler/icons-svelte";
-    import { newDeviceAdded } from "./add/Add.svelte";
     import { goto } from "$app/navigation";
-    import { editSaved, selectedDevice } from "./reactiveVariables.svelte";
+    import {
+        editSaved,
+        selectedDevice,
+        newDeviceAdded,
+    } from "./reactiveVariables.svelte";
 
     let configs: ExtendedConfig[] = $state([]);
 
