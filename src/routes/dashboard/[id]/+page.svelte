@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
     import { page } from "$app/state";
     import { getConfigs, type ExtendedConfig } from "$lib/db/db";
     import { selectedDevice } from "../../reactiveVariables.svelte";
@@ -23,14 +24,17 @@
         }
     });
 
-    // const gotoEdit
-    // TODO
+    const gotoEdit = (event: Event) => {
+        event.preventDefault();
+        const config: ExtendedConfig = configs[index];
+        goto(`/edit/${config.id}`)
+    }
 </script>
 
 {#if index >= 0}
     <div class="dashboard">
         <div>DASHBOARD - {configs[index].deviceName}</div>
-        <button>EDIT CONFIG</button>
+        <button onclick={gotoEdit}>EDIT CONFIG</button>
     </div>
 {:else}
     <span>LOADING...</span>
