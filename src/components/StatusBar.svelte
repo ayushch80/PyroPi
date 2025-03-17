@@ -1,28 +1,51 @@
 <script lang="ts">
     import { platform, type Platform } from "@tauri-apps/plugin-os";
-    import { IconChevronLeft, IconChevronRight, IconHome } from "@tabler/icons-svelte";
-    import { goto } from "$app/navigation";
+    import {
+        IconChevronLeft,
+        IconChevronRight,
+        IconHome,
+    } from "@tabler/icons-svelte";
+    import {
+        editSaved,
+        historyIndex,
+        newDeviceAdded,
+        selectedDevice,
+    } from "../routes/reactiveVariables.svelte";
+    import { link } from "$lib/history";
 
-    let os : Platform = platform();
+    let os: Platform = platform();
 
-    function goBack(event: Event) {
-        event.preventDefault();
-        history.back();
-    }
-    function goForeward(event: Event) {
-        event.preventDefault();
-        history.forward();
-    }
-    function goHome(event: Event) {
-        event.preventDefault();
-        goto('/')
-    }
+    // function goBack(event: Event) {
+    //     event.preventDefault();
+    //     history.back();
+    // }
+    // function goForeward(event: Event) {
+    //     event.preventDefault();
+    //     history.forward();
+    // }
+    // function goHome(event: Event) {
+    //     event.preventDefault();
+    //     goto('/')
+    // }
+
+    const goBack = (event: Event) => {};
+    const goForeward = (event: Event) => {};
+
+    const goHome = (event: Event) => {
+        const states: object = {
+            editSaved,
+            newDeviceAdded,
+            selectedDevice,
+        };
+        link("/", states);
+        historyIndex.value += 1;
+    };
 </script>
 
 <nav>
-    <button on:click={goBack}><IconChevronLeft color="#ccc" /></button>
-    <button on:click={goForeward}><IconChevronRight color="#ccc" /></button>
-    <button on:click={goHome}><IconHome color="#ccc" /></button>
+    <button onclick={goBack}><IconChevronLeft color="#ccc" /></button>
+    <button onclick={goForeward}><IconChevronRight color="#ccc" /></button>
+    <button onclick={goHome}><IconHome color="#ccc" /></button>
     <span style="flex: 1;">{""}</span>
     <span class="highlighted">OS: <code>{os}</code></span>
 </nav>
@@ -47,7 +70,7 @@
         display: grid;
         place-content: center;
 
-        background: rgba(255,255,255,0);
+        background: rgba(255, 255, 255, 0);
         border: none;
         border-radius: 0.25em;
         cursor: pointer;
@@ -59,7 +82,7 @@
         transition: all 0.125s ease;
     }
     button:hover {
-        background: rgba(255,255,255,0.2);
+        background: rgba(255, 255, 255, 0.2);
     }
     .highlighted {
         background: #000;

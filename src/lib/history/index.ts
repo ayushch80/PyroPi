@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 import Dexie, { type EntityTable } from "dexie";
 
 const version = 1;
@@ -70,5 +71,16 @@ const deleteAfterIndex = async (index: number): Promise<boolean> => {
     }
 };
 
+const link = async (path: string, states: object | any): Promise<boolean> => {
+    try {
+        goto(path);
+        addHistory(path, states);
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+};
+
 export type { ExtendedHistoryElement, HistoryElement };
-export { addHistory, deleteAfterId, deleteAfterIndex, history };
+export { addHistory, deleteAfterId, deleteAfterIndex, history, link };
