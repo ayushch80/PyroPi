@@ -5,12 +5,7 @@
         IconChevronRight,
         IconHome,
     } from "@tabler/icons-svelte";
-    import {
-        editSaved,
-        historyIndex,
-        newDeviceAdded,
-        selectedDevice,
-    } from "../routes/reactiveVariables.svelte";
+    
     import { link } from "$lib/history";
 
     let os: Platform = platform();
@@ -32,13 +27,7 @@
     const goForeward = (event: Event) => {};
 
     const goHome = (event: Event) => {
-        const states: object = {
-            editSaved,
-            newDeviceAdded,
-            selectedDevice,
-        };
-        link("/", states);
-        historyIndex.value += 1;
+        link("/");
     };
 </script>
 

@@ -1,5 +1,6 @@
 import { goto } from "$app/navigation";
 import Dexie, { type EntityTable } from "dexie";
+import { link } from "./index.svelte";
 
 const version = 1;
 
@@ -67,17 +68,6 @@ const deleteAfterIndex = async (index: number): Promise<boolean> => {
         return await deleteAfterId(index + 1);
     } catch (error) {
         console.error(error);
-        return false;
-    }
-};
-
-const link = async (path: string, states: object | any): Promise<boolean> => {
-    try {
-        goto(path);
-        addHistory(path, states);
-        return true;
-    } catch (error) {
-        console.log(error);
         return false;
     }
 };
